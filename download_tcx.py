@@ -9,6 +9,7 @@ import sys
 import fitbit
 import gather_keys_oauth2 as Oauth2
 
+TCX_NAMESPACE = '{http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2}'
 LOG_ID = '5268825224'
 
 """for OAuth2.0"""
@@ -24,4 +25,9 @@ auth2_client = fitbit.Fitbit(USER_ID, CLIENT_SECRET, oauth2=True, access_token=s
  
 """Getting data"""
 fitbit_tcx = auth2_client.activity_tcx(log_id=LOG_ID)
-print(fitbit_tcx)
+
+for tp in fitbit_tcx.iter(TCX_NAMESPACE + 'Trackpoint'):
+    time = tp.find(TCX_NAMESPACE + 'Time').text
+    hr = tp.find(TCX_NAMESPACE + 'HeartRateBpm')
+    hr_val = hr.find(TCX_NAMESPACE+'Value').text
+    print(time, hr_val)
