@@ -22,7 +22,11 @@ server.browser_authorize()
  
 """Authorization"""
 auth2_client = fitbit.Fitbit(USER_ID, CLIENT_SECRET, oauth2=True, access_token=server.oauth.token['access_token'], refresh_token=server.oauth.token['refresh_token'])
- 
+
+"""Get activity logs list"""
+alist = auth2_client.activity_logs_list(after_date='2016-12-21')
+print(alist)
+
 """Getting data"""
 fitbit_tcx = auth2_client.activity_tcx(log_id=LOG_ID)
 
